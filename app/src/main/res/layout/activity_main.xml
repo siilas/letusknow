@@ -1,18 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFF"
+    android:orientation="vertical"
     tools:context="br.com.silas.letusknow.activity.MainActivity">
 
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="15dp"
+        android:src="@drawable/logo_small" />
+
     <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logo"
+        android:layout_marginBottom="25dp"
+        android:gravity="center"
+        android:text="@string/app_name"
+        android:textColor="#2e3899"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:layout_margin="25dp"
+        android:accessibilityLiveRegion="polite"
+        android:contentDescription="@string/message"
+        android:focusable="true"
+        android:gravity="center"
+        android:text="@string/message"
+        android:textColor="#000"
+        android:textSize="25dp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/botao_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_below="@+id/message"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="35dp"
+        android:accessibilityLiveRegion="polite"
+        android:background="#2e3899"
+        android:contentDescription="@string/start_description"
+        android:focusable="true"
+        android:text="@string/start"
+        android:textColor="#FFF" />
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/botao_start"
+        android:layout_margin="35dp"
+        android:accessibilityLiveRegion="polite"
+        android:contentDescription="@string/footer"
+        android:focusable="true"
+        android:gravity="center"
+        android:text="@string/footer"
+        android:textColor="#000"
+        android:textSize="15dp" />
+
+</RelativeLayout>
