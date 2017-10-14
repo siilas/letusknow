@@ -6,8 +6,7 @@
     <string name="start">Começar!</string>
     <string name="start_description">Botão para começar o questionário</string>
     <string name="title_activity_questionario">QuestionarioActivity</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="responder">Responder</string>
+    <string name="responder_description">Responder a questão</string>
 
 </resources>

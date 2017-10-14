@@ -34,12 +34,36 @@
         android:layout_below="@+id/title"
         android:layout_margin="25dp"
         android:accessibilityLiveRegion="polite"
-        android:contentDescription="@string/message"
         android:focusable="true"
         android:gravity="center"
-        android:text="@string/message"
         android:textColor="#000"
         android:textSize="25dp"
         android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/answer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/question"
+        android:layout_margin="25dp"
+        android:accessibilityLiveRegion="polite"
+        android:focusable="true"
+        android:gravity="center"
+        android:textColor="#2e3899"
+        android:textSize="25dp" />
+
+    <Button
+        android:id="@+id/botao_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/answer"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="25dp"
+        android:accessibilityLiveRegion="polite"
+        android:background="#2e3899"
+        android:contentDescription="@string/responder_description"
+        android:focusable="true"
+        android:text="@string/responder"
+        android:textColor="#FFF" />
 
 </RelativeLayout>
