@@ -8,5 +8,8 @@
     <string name="title_activity_questionario">QuestionarioActivity</string>
     <string name="responder">Responder</string>
     <string name="responder_description">Responder a questão</string>
-
+    <string name="sair">Sair</string>
+    <string name="sair_description">Botão que sai do questionário</string>
+    <string name="conclusao">Obrigado por responder o questionário!</string>
+    
 </resources>

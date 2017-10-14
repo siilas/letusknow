@@ -1,17 +1,21 @@
 package br.com.silas.letusknow.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import br.com.silas.letusknow.R;
 import br.com.silas.letusknow.dao.QuestionarioDao;
 import br.com.silas.letusknow.model.Controlador;
 import br.com.silas.letusknow.model.Questao;
 import br.com.silas.letusknow.utils.ListUtils;
+import br.com.silas.letusknow.utils.SomUtils;
 
 public class QuestionarioActivity extends AppCompatActivity {
 
@@ -30,6 +34,16 @@ public class QuestionarioActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 responder();
+            }
+
+        });
+        Button botaoSair = (Button) findViewById(R.id.botao_exit);
+        botaoSair.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                SomUtils.play(QuestionarioActivity.this);
+                irParaHome();
             }
 
         });
@@ -58,6 +72,7 @@ public class QuestionarioActivity extends AppCompatActivity {
     }
 
     private void responder() {
+        SomUtils.play(this);
         dao.salvarResposta(controlador.setResposta(findViewById(R.id.answer)));
         if (controlador.deveConcluir()) {
             concluir();
@@ -67,6 +82,22 @@ public class QuestionarioActivity extends AppCompatActivity {
     }
 
     private void concluir() {
+        Toast.makeText(this, R.string.conclusao, Toast.LENGTH_LONG).show();
+        Handler handle = new Handler();
+        handle.postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                irParaHome();
+            }
+
+        }, Toast.LENGTH_LONG);
+    }
+
+    private void irParaHome() {
+        Intent intent = new Intent(QuestionarioActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
 }
