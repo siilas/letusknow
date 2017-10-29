@@ -3,28 +3,39 @@ package br.com.silas.letusknow.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 
 import br.com.silas.letusknow.R;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+        try {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_splash);
 
-        Handler handle = new Handler();
-        handle.postDelayed(new Runnable() {
+            Handler handle = new Handler();
+            handle.postDelayed(new Runnable() {
 
-            @Override
-            public void run() {
-                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
+                @Override
+                public void run() {
+                    irParaMenu();
+                }
 
-        }, 2000);
+            }, 2000);
+        } catch (Exception e) {
+            mostarMensagemErro("Erro ao mostrar tela inicial", e);
+        }
+    }
+
+    private void irParaMenu() {
+        try {
+            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        } catch (Exception e) {
+            mostarMensagemErro("Erro ao criar menu", e);
+        }
     }
 
 }

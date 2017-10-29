@@ -3,6 +3,7 @@ package br.com.silas.letusknow.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import br.com.silas.letusknow.dao.QuestionarioDao;
 
@@ -16,26 +17,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "Há limitação de atividades devido ao seu estado de saúde atual?",
             "Qual a interferência da dor durante o seu dia-a-dia?" };
 
-    private Context context;
-
     public DatabaseHelper(Context context) {
         super(context, DBNAME, null, DBVERSION);
-        this.context = context;
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE QUESTOES ( " +
-                " CODIGO INTEGER PRIMARY KEY AUTOINCREMENT," +
-                " DESCRICAO TEXT," +
-                " RESPOSTA TEXT ); ");
-        QuestionarioDao.inserirQuestoes(db, QUESTOES);
+        try {
+            db.execSQL("CREATE TABLE QUESTOES ( " +
+                    " CODIGO INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    " DESCRICAO TEXT," +
+                    " RESPOSTA TEXT ); ");
+            QuestionarioDao.inserirQuestoes(db, QUESTOES);
+        } catch (Exception e) {
+            Log.e("LetUsKnow", "Erro ao criar banco de dados", e);
+        }
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS QUESTOES");
-        onCreate(db);
+        try {
+            db.execSQL("DROP TABLE IF EXISTS QUESTOES");
+            onCreate(db);
+        } catch (Exception e) {
+            Log.e("LetUsKnow", "Erro ao atualizar banco de dados", e);
+        }
     }
 
 }
