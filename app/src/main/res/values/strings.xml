@@ -1,7 +1,7 @@
 <resources>
 
     <string name="app_name">LetUsKnow</string>
-    <string name="message">Ajude nos! responda nossas pesquisas!</string>
+    <string name="message">Ajude-nos! Responda nossas pesquisas!</string>
     <string name="footer">Desenvolvido para a matéria de Design de Interfaces</string>
     <string name="start">Começar!</string>
     <string name="start_description">Botão para começar o questionário</string>

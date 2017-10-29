@@ -22,8 +22,13 @@
         <activity
             android:name=".activity.MainActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+
         <activity
             android:name=".activity.QuestionarioActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+
+        <activity
+            android:name=".activity.ConcluirActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
     </application>
