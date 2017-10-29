@@ -11,5 +11,6 @@
     <string name="sair">Sair</string>
     <string name="sair_description">Botão que sai do questionário</string>
     <string name="conclusao">Obrigado por responder o questionário!</string>
+    <string name="error_button">OK</string>
     
 </resources>
