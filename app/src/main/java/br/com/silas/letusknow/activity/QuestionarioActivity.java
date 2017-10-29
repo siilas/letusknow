@@ -14,7 +14,6 @@ import br.com.silas.letusknow.dao.QuestionarioDao;
 import br.com.silas.letusknow.exception.ServiceException;
 import br.com.silas.letusknow.model.Controlador;
 import br.com.silas.letusknow.model.Questao;
-import br.com.silas.letusknow.utils.ListUtils;
 import br.com.silas.letusknow.utils.SomUtils;
 
 public class QuestionarioActivity extends BaseActivity {
@@ -46,8 +45,7 @@ public class QuestionarioActivity extends BaseActivity {
 
                 @Override
                 public void onClick(View view) {
-                    SomUtils.play(QuestionarioActivity.this);
-                    irParaHome();
+                    sair();
                 }
 
             });
@@ -62,8 +60,8 @@ public class QuestionarioActivity extends BaseActivity {
     protected void onStart() {
         try {
             super.onStart();
-            controlador.getQuestoes().addAll(dao.buscarQuestoes());
-            if (ListUtils.isNotEmpty(controlador.getQuestoes())) {
+            controlador.addQuestoes(dao.buscarQuestoes());
+            if (controlador.isNotEmpty()) {
                 preencherTela(controlador.getQuestaoAtual());
             }
         } catch (ServiceException e) {
@@ -129,6 +127,11 @@ public class QuestionarioActivity extends BaseActivity {
         Intent intent = new Intent(QuestionarioActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private void sair() {
+        SomUtils.play(QuestionarioActivity.this);
+        irParaHome();
     }
 
 }

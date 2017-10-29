@@ -6,6 +6,8 @@ import android.widget.EditText;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.silas.letusknow.utils.ListUtils;
+
 public class Controlador {
 
     private Integer questaoAtual;
@@ -42,6 +44,14 @@ public class Controlador {
             questao.setResposta(String.valueOf(resposta.getText()));
         }
         return questao;
+    }
+
+    public void addQuestoes(List<Questao> questoes) {
+        getQuestoes().addAll(questoes);
+    }
+
+    public boolean isNotEmpty() {
+        return ListUtils.isNotEmpty(getQuestoes());
     }
 
 }
