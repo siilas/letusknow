@@ -2,12 +2,10 @@ package br.com.silas.letusknow.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import br.com.silas.letusknow.R;
 import br.com.silas.letusknow.dao.QuestionarioDao;
@@ -21,16 +19,15 @@ public class QuestionarioActivity extends BaseActivity {
     private QuestionarioDao dao;
     private Controlador controlador;
 
-    public QuestionarioActivity() {
-        dao = new QuestionarioDao(this);
-        controlador = new Controlador();
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_questionario);
+
+            dao = new QuestionarioDao(this);
+            controlador = new Controlador();
+
             Button botaoProximo = (Button) findViewById(R.id.botao_next);
             botaoProximo.setOnClickListener(new View.OnClickListener() {
 
@@ -108,16 +105,9 @@ public class QuestionarioActivity extends BaseActivity {
 
     private void concluir() {
         try {
-            Toast.makeText(this, R.string.conclusao, Toast.LENGTH_LONG).show();
-            Handler handle = new Handler();
-            handle.postDelayed(new Runnable() {
-
-                @Override
-                public void run() {
-                    irParaHome();
-                }
-
-            }, Toast.LENGTH_LONG);
+            Intent intent = new Intent(QuestionarioActivity.this, ConcluirActivity.class);
+            startActivity(intent);
+            finish();
         } catch (Exception e) {
             mostarMensagemErro("Erro ao concluir questionário", e);
         }
