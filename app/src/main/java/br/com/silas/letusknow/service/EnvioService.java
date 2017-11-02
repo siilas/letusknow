@@ -1,11 +1,12 @@
 package br.com.silas.letusknow.service;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.gson.Gson;
 
+import java.io.DataOutputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -26,44 +27,30 @@ public class EnvioService {
     public void enviar() {
         List<Questao> questoes = questionarioDao.buscarQuestoes();
         if (ListUtils.isNotEmpty(questoes)) {
-            EnviarAPI request = new EnviarAPI();
-            request.execute(questoes);
-        } else {
-            throw new ServiceException("Sem questões para enviar");
-        }
-    }
-
-    class EnviarAPI extends AsyncTask<List<Questao>, String, String> {
-
-        @Override
-        protected void onPreExecute() {
-            //TODO: Criar loading
-        }
-
-        @Override
-        protected String doInBackground(List<Questao>... parameters) {
-            List<Questao> questoes = ListUtils.getFirst(parameters);
-            if (ListUtils.isEmpty(questoes)) {
-                throw new ServiceException("Erro ao buscar questões");
-            }
             try {
-                URL url = new URL("URL de envio");
+                URL url = new URL("http://www.google.com.br");
                 String request = new Gson().toJson(questoes);
-                //TODO: Enviar questões
-                return null;
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("POST");
+                connection.setDoOutput(true);
+                DataOutputStream writer = new DataOutputStream(connection.getOutputStream());
+                writer.writeBytes(request);
+                writer.flush();
+                writer.close();
+                if (connection.getResponseCode() != 200) {
+                    throw new ServiceException("Não foi possível enviar as questões");
+                }
+            } catch (ServiceException e) {
+                throw e;
             } catch (MalformedURLException e) {
                 throw new ServiceException("Verifique a URL de envio");
             } catch (Exception e) {
                 Log.e("LetUsKnow", "Erro ao enviar questões", e);
                 throw new ServiceException("Erro ao enviar questões");
             }
+        } else {
+            throw new ServiceException("Sem questões para enviar");
         }
-
-        @Override
-        protected void onPostExecute(String response) {
-            //TODO: Tratar resultado e esconder loading
-        }
-
     }
 
 }

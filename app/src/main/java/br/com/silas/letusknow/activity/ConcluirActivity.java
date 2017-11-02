@@ -1,14 +1,16 @@
 package br.com.silas.letusknow.activity;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.ProgressBar;
 
 import br.com.silas.letusknow.R;
 import br.com.silas.letusknow.exception.ServiceException;
+import br.com.silas.letusknow.model.Enviar;
 import br.com.silas.letusknow.service.EnvioService;
 import br.com.silas.letusknow.utils.SomUtils;
 
@@ -65,22 +67,61 @@ public class ConcluirActivity extends BaseActivity {
     private void enviar() {
         try {
             SomUtils.play(this);
-            envioService.enviar();
-            Toast.makeText(this, R.string.enviado, Toast.LENGTH_LONG).show();
-            Handler handle = new Handler();
-            handle.postDelayed(new Runnable() {
-
-                @Override
-                public void run() {
-                    irParaHome();
-                }
-
-            }, Toast.LENGTH_LONG);
+            EnviarAPI request = new EnviarAPI();
+            request.execute();
         } catch (ServiceException e) {
             mostarMensagemErro(e);
         } catch (Exception e) {
             mostarMensagemErro("Erro ao sair", e);
         }
+    }
+
+    class EnviarAPI extends AsyncTask<Void, Void, Enviar> {
+
+        private ProgressBar progress;
+
+        @Override
+        protected void onPreExecute() {
+            progress = new ProgressBar(ConcluirActivity.this);
+            progress.setIndeterminate(true);
+            progress.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Enviar doInBackground(Void... parameters) {
+            Enviar enviar = new Enviar();
+            try {
+                envioService.enviar();
+                enviar.sucesso();
+            } catch (ServiceException e) {
+                enviar.erro(e.getMessage());
+            } catch (Exception e) {
+                Log.e("LetUsKnow", "Erro ao enviar questões", e);
+                enviar.erro("Erro ao enviar questões");
+            }
+            return enviar;
+        }
+
+        @Override
+        protected void onPostExecute(Enviar enviar) {
+            String message;
+            if (enviar.isSucesso()) {
+                message = getString(R.string.enviado);
+            } else {
+                message = enviar.getMessage();
+            }
+            progress.setVisibility(View.INVISIBLE);
+
+            mostarMensagem(message, new OnClose() {
+
+                @Override
+                public void onClose() {
+                    irParaHome();
+                }
+
+            });
+        }
+
     }
 
 }

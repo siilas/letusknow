@@ -12,14 +12,18 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void mostarMensagemErro(String mensagem, Exception erro) {
         Log.e("LetUsKnow", mensagem, erro);
-        mensagemErro(mensagem);
+        mensagem(mensagem, null);
     }
 
     protected void mostarMensagemErro(ServiceException erro) {
-        mensagemErro(erro.getMessage());
+        mensagem(erro.getMessage(), null);
     }
 
-    private void mensagemErro(String erro) {
+    protected void mostarMensagem(String message, OnClose onClose) {
+        mensagem(message, onClose);
+    }
+
+    private void mensagem(String erro, final OnClose onClose) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(erro);
         builder.setCancelable(false);
@@ -30,11 +34,20 @@ public abstract class BaseActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
                         finish();
+                        if (onClose != null) {
+                            onClose.onClose();
+                        }
                     }
                 });
 
         AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    interface OnClose {
+
+        void onClose();
+
     }
 
 }
