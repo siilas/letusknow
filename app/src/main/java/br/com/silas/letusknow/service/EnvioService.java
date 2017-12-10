@@ -28,7 +28,7 @@ public class EnvioService {
         List<Questao> questoes = questionarioDao.buscarQuestoes();
         if (ListUtils.isNotEmpty(questoes)) {
             try {
-                URL url = new URL("http://www.google.com.br");
+                URL url = new URL("http://letusknow.herokuapp.com/ws/questao/salvar");
                 String request = new Gson().toJson(questoes);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");

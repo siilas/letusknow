@@ -5,17 +5,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import br.com.silas.letusknow.dao.QuestionarioDao;
+import br.com.silas.letusknow.service.BuscarService;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final int DBVERSION = 1;
+    private static final int DBVERSION = 2;
     private static final String DBNAME = "LetUsKnow.db";
-    private static final String[] QUESTOES = new String[] { "No geral, como é que a sua saude?",
-            "Comparando com um ano atrás, como você diria que a sua saúde está hoje?",
-            "Quanta dor no corpo você sentiu durante as últimas semanas?",
-            "Há limitação de atividades devido ao seu estado de saúde atual?",
-            "Qual a interferência da dor durante o seu dia-a-dia?" };
+
+    BuscarService buscarService = new BuscarService();
 
     public DatabaseHelper(Context context) {
         super(context, DBNAME, null, DBVERSION);
@@ -24,11 +21,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         try {
-            db.execSQL("CREATE TABLE QUESTOES ( " +
+            db.execSQL("CREATE TABLE QUESTOES (" +
                     " CODIGO INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    " DESCRICAO TEXT," +
-                    " RESPOSTA TEXT ); ");
-            QuestionarioDao.inserirQuestoes(db, QUESTOES);
+                    " DESCRICAO TEXT NOT NULL);");
+            db.execSQL("CREATE TABLE RESPOSTAS (" +
+                    " CODIGO INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    " DESCRICAO TEXT NOT NULL," +
+                    " SELECIONADA INTEGER," +
+                    " VOTOS INTEGER," +
+                    " QUESTAO INTEGER NOT NULL," +
+                    " FOREIGN KEY(QUESTAO) REFERENCES QUESTOES(CODIGO));");
+            buscarService.buscar(db);
         } catch (Exception e) {
             Log.e("LetUsKnow", "Erro ao criar banco de dados", e);
         }
@@ -38,6 +41,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         try {
             db.execSQL("DROP TABLE IF EXISTS QUESTOES");
+            db.execSQL("DROP TABLE IF EXISTS RESPOSTAS");
             onCreate(db);
         } catch (Exception e) {
             Log.e("LetUsKnow", "Erro ao atualizar banco de dados", e);

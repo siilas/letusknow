@@ -12,7 +12,7 @@ import java.util.List;
 import br.com.silas.letusknow.db.DatabaseHelper;
 import br.com.silas.letusknow.exception.ServiceException;
 import br.com.silas.letusknow.model.Questao;
-import br.com.silas.letusknow.utils.ArrayUtils;
+import br.com.silas.letusknow.service.BuscarService;
 
 public class QuestionarioDao {
 
@@ -33,7 +33,7 @@ public class QuestionarioDao {
         try {
             db.beginTransactionNonExclusive();
             Cursor cursor = db.query("QUESTOES",
-                    new String[]{"CODIGO", "DESCRICAO", "RESPOSTA"},
+                    new String[]{"CODIGO", "DESCRICAO"},
                     null,
                     null,
                     null,
@@ -45,7 +45,6 @@ public class QuestionarioDao {
                     Questao questao = new Questao();
                     questao.setId(cursor.getInt(0));
                     questao.setDescricao(cursor.getString(1));
-                    questao.setResposta(cursor.getString(2));
                     questoes.add(questao);
                 } while (cursor.moveToNext());
             }
@@ -72,21 +71,17 @@ public class QuestionarioDao {
         }
     }
 
-    public static void inserirQuestoes(SQLiteDatabase db, String[] descricoes) {
+    public static void inserirQuestao(SQLiteDatabase db, Questao questao) {
         try {
-            if (ArrayUtils.isNotEmpty(descricoes)) {
-                db.beginTransactionNonExclusive();
-                for (String descricao : descricoes) {
-                    ContentValues content = new ContentValues();
-                    content.put("DESCRICAO", descricao);
-                    content.put("RESPOSTA", "");
-                    db.insert("QUESTOES", null, content);
-                }
-                db.setTransactionSuccessful();
-                db.endTransaction();
-            }
+            db.beginTransactionNonExclusive();
+            ContentValues content = new ContentValues();
+            content.put("CODIGO", questao.getId());
+            content.put("DESCRICAO", questao.getDescricao());
+            db.insert("QUESTOES", null, content);
+            db.setTransactionSuccessful();
+            db.endTransaction();
         } catch (Exception e) {
-            Log.e("LetUsKnow", "Erro ao inserir questões", e);
+            Log.e("LetUsKnow", "Erro ao inserir questão", e);
         }
     }
 
