@@ -1,10 +1,13 @@
 package br.com.silas.letusknow.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Questao {
 
     private Integer id;
     private String descricao;
-    private String resposta;
+    private List<Resposta> respostas;
 
     public Integer getId() {
         return id;
@@ -22,12 +25,15 @@ public class Questao {
         this.descricao = descricao;
     }
 
-    public String getResposta() {
-        return resposta;
+    public List<Resposta> getRespostas() {
+        if (respostas == null) {
+            respostas = new ArrayList<>();
+        }
+        return respostas;
     }
 
-    public void setResposta(String resposta) {
-        this.resposta = resposta;
+    public void setRespostas(List<Resposta> resposta) {
+        this.respostas = resposta;
     }
 
 }

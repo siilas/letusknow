@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/LetUsKnow.iml" filepath="$PROJECT_DIR$/LetUsKnow.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/letusknow.iml" filepath="$PROJECT_DIR$/letusknow.iml" />
     </modules>
   </component>
 </project>

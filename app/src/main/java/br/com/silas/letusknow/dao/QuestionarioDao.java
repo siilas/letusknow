@@ -61,7 +61,7 @@ public class QuestionarioDao {
         try {
             db.beginTransactionNonExclusive();
             ContentValues values = new ContentValues();
-            values.put("RESPOSTA", questao.getResposta());
+            //values.put("RESPOSTA", questao.getResposta());
             db.update("QUESTOES", values, "CODIGO = ?", new String[]{String.valueOf(questao.getId())});
             db.setTransactionSuccessful();
             db.endTransaction();

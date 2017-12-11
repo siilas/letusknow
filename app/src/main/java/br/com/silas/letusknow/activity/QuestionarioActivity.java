@@ -76,10 +76,10 @@ public class QuestionarioActivity extends BaseActivity {
                 descricao.setText(questao.getDescricao());
             }
             EditText resposta = (EditText) findViewById(R.id.answer);
-            if (resposta != null) {
+            /*if (resposta != null) {
                 resposta.setContentDescription(questao.getResposta());
                 resposta.setText(questao.getResposta());
-            }
+            }*/
         } catch (ServiceException e) {
             mostarMensagemErro(e);
         } catch (Exception e) {

@@ -41,7 +41,7 @@ public class Controlador {
         Questao questao = getQuestaoAtual();
         EditText resposta = (EditText) view;
         if (resposta != null) {
-            questao.setResposta(String.valueOf(resposta.getText()));
+            //questao.setResposta(String.valueOf(resposta.getText()));
         }
         return questao;
     }

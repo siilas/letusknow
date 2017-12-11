@@ -15,6 +15,7 @@ import br.com.silas.letusknow.dao.QuestionarioDao;
 import br.com.silas.letusknow.exception.ServiceException;
 import br.com.silas.letusknow.model.Questao;
 import br.com.silas.letusknow.utils.ListUtils;
+import br.com.silas.letusknow.ws.LetUsKnowWs;
 
 public class EnvioService {
 
@@ -28,6 +29,11 @@ public class EnvioService {
         List<Questao> questoes = questionarioDao.buscarQuestoes();
         if (ListUtils.isNotEmpty(questoes)) {
             try {
+                String response = LetUsKnowWs.criar()
+                        .rootUrl("http://letusknow.herokuapp.com")
+                        .autenticar("ws", "123")
+                        .post("/ws/questao/salvar", questoes);
+
                 URL url = new URL("http://letusknow.herokuapp.com/ws/questao/salvar");
                 String request = new Gson().toJson(questoes);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
