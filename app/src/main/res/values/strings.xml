@@ -4,6 +4,9 @@
     <string name="message">Ajude-nos! Responda nossas pesquisas!</string>
     <string name="footer">Desenvolvido para a matéria de Design de Interfaces</string>
     <string name="start">Começar!</string>
+    <string name="results">Ver resultados</string>
+    <string name="resultado_pesquisa">Resultado da pesquisa</string>
+    <string name="results_description">Botão para ver resultados</string>
     <string name="start_description">Botão para começar o questionário</string>
     <string name="title_activity_questionario">QuestionarioActivity</string>
     <string name="responder">Responder</string>

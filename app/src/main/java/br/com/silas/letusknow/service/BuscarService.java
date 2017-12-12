@@ -26,9 +26,7 @@ public class BuscarService {
     public void buscar(SQLiteDatabase db) {
         try {
             BuscarAPI buscarAPI = new BuscarAPI();
-            String response = buscarAPI.execute().get();
-
-            List<Questao> questoes = QuestaoConverter.converter(response);
+            List<Questao> questoes = buscarAPI.execute().get();
 
             for (Questao questao : questoes) {
                 QuestionarioDao.inserirQuestao(db, questao);
@@ -42,15 +40,21 @@ public class BuscarService {
         }
     }
 
-    class BuscarAPI extends AsyncTask<Void, Void, String> {
+    public List<Questao> buscar() {
+        String response = LetUsKnowWs.criar()
+                .rootUrl(properties.get("root.url"))
+                .autenticar(properties.get("ws.user"), properties.get("ws.pass"))
+                .get("/ws/questao/buscar");
+
+        return QuestaoConverter.converter(response);
+    }
+
+    class BuscarAPI extends AsyncTask<Void, Void, List<Questao>> {
 
         @Override
-        protected String doInBackground(Void... parameters) {
+        protected List<Questao> doInBackground(Void... parameters) {
             try {
-                return LetUsKnowWs.criar()
-                        .rootUrl(properties.get("root.url"))
-                        .autenticar(properties.get("ws.user"), properties.get("ws.pass"))
-                        .get("/ws/questao/buscar");
+                return buscar();
             } catch (Exception e) {
                 Log.e("LetUsKnow", "Erro a buscar informações", e);
             }

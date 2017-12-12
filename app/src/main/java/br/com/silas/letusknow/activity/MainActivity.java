@@ -24,6 +24,15 @@ public class MainActivity extends BaseActivity {
                 }
 
             });
+            Button resultsButton = (Button) findViewById(R.id.botao_results);
+            resultsButton.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View view) {
+                    verResultados();
+                }
+
+            });
         } catch (Exception e) {
             mostarMensagemErro("Erro ao criar tela de menu", e);
         }
@@ -37,6 +46,17 @@ public class MainActivity extends BaseActivity {
             finish();
         } catch (Exception e) {
             mostarMensagemErro("Erro ao iniciar questionário", e);
+        }
+    }
+
+    private void verResultados() {
+        try {
+            SomUtils.play(this);
+            Intent intent = new Intent(MainActivity.this, ResultadosActivity.class);
+            startActivity(intent);
+            finish();
+        } catch (Exception e) {
+            mostarMensagemErro("Erro ao ver resultados", e);
         }
     }
 

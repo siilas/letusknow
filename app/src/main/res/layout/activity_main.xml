@@ -56,11 +56,25 @@
         android:text="@string/start"
         android:textColor="#FFF" />
 
+    <Button
+        android:id="@+id/botao_results"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/botao_start"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="25dp"
+        android:accessibilityLiveRegion="polite"
+        android:background="#2e3899"
+        android:contentDescription="@string/results_description"
+        android:focusable="true"
+        android:text="@string/results"
+        android:textColor="#FFF" />
+
     <TextView
         android:id="@+id/footer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/botao_start"
+        android:layout_below="@+id/botao_results"
         android:layout_margin="35dp"
         android:accessibilityLiveRegion="polite"
         android:contentDescription="@string/footer"
