@@ -12,7 +12,6 @@ import java.util.List;
 import br.com.silas.letusknow.db.DatabaseHelper;
 import br.com.silas.letusknow.exception.ServiceException;
 import br.com.silas.letusknow.model.Questao;
-import br.com.silas.letusknow.service.BuscarService;
 
 public class QuestionarioDao {
 
@@ -57,29 +56,12 @@ public class QuestionarioDao {
         }
     }
 
-    public void salvarResposta(Questao questao) {
-        try {
-            db.beginTransactionNonExclusive();
-            ContentValues values = new ContentValues();
-            //values.put("RESPOSTA", questao.getResposta());
-            db.update("QUESTOES", values, "CODIGO = ?", new String[]{String.valueOf(questao.getId())});
-            db.setTransactionSuccessful();
-            db.endTransaction();
-        } catch (Exception e) {
-            Log.e("LetUsKnow", "Erro ao salvar resposta", e);
-            throw new ServiceException("Erro ao salvar resposta");
-        }
-    }
-
     public static void inserirQuestao(SQLiteDatabase db, Questao questao) {
         try {
-            db.beginTransactionNonExclusive();
             ContentValues content = new ContentValues();
             content.put("CODIGO", questao.getId());
             content.put("DESCRICAO", questao.getDescricao());
             db.insert("QUESTOES", null, content);
-            db.setTransactionSuccessful();
-            db.endTransaction();
         } catch (Exception e) {
             Log.e("LetUsKnow", "Erro ao inserir questão", e);
         }

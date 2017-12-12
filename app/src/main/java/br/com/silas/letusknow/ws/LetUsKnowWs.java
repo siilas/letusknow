@@ -4,15 +4,16 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
-import org.json.JSONArray;
-
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.Authenticator;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.PasswordAuthentication;
 import java.net.URL;
+
+import br.com.silas.letusknow.exception.ServiceException;
 
 public class LetUsKnowWs {
 
@@ -64,20 +65,22 @@ public class LetUsKnowWs {
         }
     }
 
-    public String post(String endpoint, Object request) {
+    public Integer post(String endpoint, Object request) {
         try {
             URL url = new URL(rootUrl + endpoint);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/json");
             DataOutputStream writer = new DataOutputStream(connection.getOutputStream());
             writer.writeBytes(new Gson().toJson(request));
             writer.flush();
             writer.close();
-            //TODO: terminar implementação
-            return "";
+            return connection.getResponseCode();
+        } catch (MalformedURLException e) {
+            throw new ServiceException("Verifique a URL de envio");
         } catch (Exception e) {
             Log.e("LetUsKnow", "Erro ao executar método POST", e);
-            return "";
+            return 0;
         }
     }
 

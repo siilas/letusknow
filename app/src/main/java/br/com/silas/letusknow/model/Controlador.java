@@ -1,8 +1,5 @@
 package br.com.silas.letusknow.model;
 
-import android.view.View;
-import android.widget.EditText;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,15 +32,6 @@ public class Controlador {
     public Questao getProximaQuestao() {
         questaoAtual++;
         return getQuestaoAtual();
-    }
-
-    public Questao setResposta(View view) {
-        Questao questao = getQuestaoAtual();
-        EditText resposta = (EditText) view;
-        if (resposta != null) {
-            //questao.setResposta(String.valueOf(resposta.getText()));
-        }
-        return questao;
     }
 
     public void addQuestoes(List<Questao> questoes) {

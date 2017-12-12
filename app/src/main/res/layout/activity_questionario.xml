@@ -42,21 +42,17 @@
         android:textSize="25dp"
         android:textStyle="bold" />
 
-    <EditText
+    <RadioGroup
         android:id="@+id/answer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/question"
         android:layout_margin="25dp"
         android:accessibilityLiveRegion="polite"
-        android:background="@drawable/shape"
         android:focusable="true"
-        android:gravity="center"
-        android:inputType="text"
-        android:maxLines="1"
         android:nextFocusForward="@+id/botao_next"
-        android:textColor="#000"
-        android:textSize="25dp" />
+        android:orientation="vertical"
+        android:textColor="#000" />
 
     <Button
         android:id="@+id/botao_next"

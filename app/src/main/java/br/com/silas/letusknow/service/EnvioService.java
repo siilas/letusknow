@@ -3,53 +3,36 @@ package br.com.silas.letusknow.service;
 import android.content.Context;
 import android.util.Log;
 
-import com.google.gson.Gson;
-
-import java.io.DataOutputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
-import br.com.silas.letusknow.dao.QuestionarioDao;
+import br.com.silas.letusknow.converter.VotoConverter;
 import br.com.silas.letusknow.exception.ServiceException;
 import br.com.silas.letusknow.model.Questao;
 import br.com.silas.letusknow.utils.ListUtils;
+import br.com.silas.letusknow.utils.PropertiesUtils;
 import br.com.silas.letusknow.ws.LetUsKnowWs;
 
 public class EnvioService {
 
-    private QuestionarioDao questionarioDao;
+    private PropertiesUtils properties;
 
     public EnvioService(Context context) {
-        questionarioDao = new QuestionarioDao(context);
+        properties = new PropertiesUtils(context);
     }
 
-    public void enviar() {
-        List<Questao> questoes = questionarioDao.buscarQuestoes();
+    public void enviar(List<Questao> questoes) {
         if (ListUtils.isNotEmpty(questoes)) {
             try {
-                String response = LetUsKnowWs.criar()
-                        .rootUrl("http://letusknow.herokuapp.com")
-                        .autenticar("ws", "123")
-                        .post("/ws/questao/salvar", questoes);
+                Integer response = LetUsKnowWs.criar()
+                        .rootUrl(properties.get("root.url"))
+                        .autenticar(properties.get("ws.user"), properties.get("ws.pass"))
+                        .post("/ws/questao/salvar", VotoConverter.converter(questoes));
 
-                URL url = new URL("http://letusknow.herokuapp.com/ws/questao/salvar");
-                String request = new Gson().toJson(questoes);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("POST");
-                connection.setDoOutput(true);
-                DataOutputStream writer = new DataOutputStream(connection.getOutputStream());
-                writer.writeBytes(request);
-                writer.flush();
-                writer.close();
-                if (connection.getResponseCode() != 200) {
+                if (response != 200) {
                     throw new ServiceException("Não foi possível enviar as questões");
                 }
             } catch (ServiceException e) {
                 throw e;
-            } catch (MalformedURLException e) {
-                throw new ServiceException("Verifique a URL de envio");
             } catch (Exception e) {
                 Log.e("LetUsKnow", "Erro ao enviar questões", e);
                 throw new ServiceException("Erro ao enviar questões");

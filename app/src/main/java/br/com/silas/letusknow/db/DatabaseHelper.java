@@ -12,10 +12,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int DBVERSION = 2;
     private static final String DBNAME = "LetUsKnow.db";
 
-    BuscarService buscarService = new BuscarService();
+    BuscarService buscarService;
 
     public DatabaseHelper(Context context) {
         super(context, DBNAME, null, DBVERSION);
+        buscarService = new BuscarService(context);
     }
 
     @Override

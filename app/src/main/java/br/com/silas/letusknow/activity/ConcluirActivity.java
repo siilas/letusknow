@@ -8,15 +8,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
+import java.util.List;
+
 import br.com.silas.letusknow.R;
+import br.com.silas.letusknow.dao.QuestionarioDao;
+import br.com.silas.letusknow.dao.RespostaDao;
 import br.com.silas.letusknow.exception.ServiceException;
 import br.com.silas.letusknow.model.Enviar;
+import br.com.silas.letusknow.model.Questao;
 import br.com.silas.letusknow.service.EnvioService;
 import br.com.silas.letusknow.utils.SomUtils;
 
 public class ConcluirActivity extends BaseActivity {
 
+    private RespostaDao respostaDao;
     private EnvioService envioService;
+    private QuestionarioDao questionarioDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +31,9 @@ public class ConcluirActivity extends BaseActivity {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_concluir);
 
+            respostaDao = new RespostaDao(this);
             envioService = new EnvioService(this);
+            questionarioDao = new QuestionarioDao(this);
 
             Button enviarButton = (Button) findViewById(R.id.botao_enviar);
             enviarButton.setOnClickListener(new View.OnClickListener() {
@@ -67,8 +76,12 @@ public class ConcluirActivity extends BaseActivity {
     private void enviar() {
         try {
             SomUtils.play(this);
+            List<Questao> questoes = questionarioDao.buscarQuestoes();
+            for (Questao questao : questoes) {
+                questao.getRespostas().addAll(respostaDao.buscarRespostas(questao.getId()));
+            }
             EnviarAPI request = new EnviarAPI();
-            request.execute();
+            request.execute(questoes);
         } catch (ServiceException e) {
             mostarMensagemErro(e);
         } catch (Exception e) {
@@ -76,7 +89,7 @@ public class ConcluirActivity extends BaseActivity {
         }
     }
 
-    class EnviarAPI extends AsyncTask<Void, Void, Enviar> {
+    class EnviarAPI extends AsyncTask<List<Questao>, Void, Enviar> {
 
         private ProgressBar progress;
 
@@ -88,10 +101,10 @@ public class ConcluirActivity extends BaseActivity {
         }
 
         @Override
-        protected Enviar doInBackground(Void... parameters) {
+        protected Enviar doInBackground(List<Questao>... parameters) {
             Enviar enviar = new Enviar();
             try {
-                envioService.enviar();
+                envioService.enviar(parameters[0]);
                 enviar.sucesso();
             } catch (ServiceException e) {
                 enviar.erro(e.getMessage());

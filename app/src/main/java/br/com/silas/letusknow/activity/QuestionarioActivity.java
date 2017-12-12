@@ -4,20 +4,28 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import java.util.List;
+
 import br.com.silas.letusknow.R;
+import br.com.silas.letusknow.component.LetUsKnowRadioButton;
 import br.com.silas.letusknow.dao.QuestionarioDao;
+import br.com.silas.letusknow.dao.RespostaDao;
 import br.com.silas.letusknow.exception.ServiceException;
 import br.com.silas.letusknow.model.Controlador;
 import br.com.silas.letusknow.model.Questao;
+import br.com.silas.letusknow.model.Resposta;
+import br.com.silas.letusknow.utils.ListUtils;
 import br.com.silas.letusknow.utils.SomUtils;
 
 public class QuestionarioActivity extends BaseActivity {
 
-    private QuestionarioDao dao;
     private Controlador controlador;
+    private RespostaDao respostaDao;
+    private QuestionarioDao questionarioDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +33,9 @@ public class QuestionarioActivity extends BaseActivity {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_questionario);
 
-            dao = new QuestionarioDao(this);
             controlador = new Controlador();
+            respostaDao = new RespostaDao(this);
+            questionarioDao = new QuestionarioDao(this);
 
             Button botaoProximo = (Button) findViewById(R.id.botao_next);
             botaoProximo.setOnClickListener(new View.OnClickListener() {
@@ -57,7 +66,13 @@ public class QuestionarioActivity extends BaseActivity {
     protected void onStart() {
         try {
             super.onStart();
-            controlador.addQuestoes(dao.buscarQuestoes());
+            List<Questao> questoes = questionarioDao.buscarQuestoes();
+            if (ListUtils.isNotEmpty(questoes)) {
+                for (Questao questao : questoes) {
+                    questao.getRespostas().addAll(respostaDao.buscarRespostas(questao.getId()));
+                }
+            }
+            controlador.addQuestoes(questoes);
             if (controlador.isNotEmpty()) {
                 preencherTela(controlador.getQuestaoAtual());
             }
@@ -75,11 +90,26 @@ public class QuestionarioActivity extends BaseActivity {
                 descricao.setContentDescription(questao.getDescricao());
                 descricao.setText(questao.getDescricao());
             }
-            EditText resposta = (EditText) findViewById(R.id.answer);
-            /*if (resposta != null) {
-                resposta.setContentDescription(questao.getResposta());
-                resposta.setText(questao.getResposta());
-            }*/
+            RadioGroup respostas = (RadioGroup) findViewById(R.id.answer);
+            if (respostas != null) {
+                respostas.removeAllViews();
+                for (Resposta resposta : questao.getRespostas()) {
+                    RadioButton radio = new LetUsKnowRadioButton(this);
+                    radio.setId(resposta.getId());
+                    radio.setContentDescription(resposta.getDescricao());
+                    radio.setText(resposta.getDescricao());
+                    radio.setChecked(resposta.isSelecionada());
+                    radio.setOnClickListener(new View.OnClickListener() {
+
+                        @Override
+                        public void onClick(View view) {
+                            selecionarResposta(view.getId());
+                        }
+
+                    });
+                    respostas.addView(radio);
+                }
+            }
         } catch (ServiceException e) {
             mostarMensagemErro(e);
         } catch (Exception e) {
@@ -87,10 +117,16 @@ public class QuestionarioActivity extends BaseActivity {
         }
     }
 
+    private void selecionarResposta(Integer id) {
+        for (Resposta resposta : controlador.getQuestaoAtual().getRespostas()) {
+            resposta.setSelecionada(resposta.getId().equals(id));
+        }
+    }
+
     private void responder() {
         try {
             SomUtils.play(this);
-            dao.salvarResposta(controlador.setResposta(findViewById(R.id.answer)));
+            respostaDao.atualizarRespostas(controlador.getQuestaoAtual().getRespostas());
             if (controlador.deveConcluir()) {
                 concluir();
             } else {
