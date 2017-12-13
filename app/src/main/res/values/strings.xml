@@ -17,5 +17,7 @@
     <string name="error_button">OK</string>
     <string name="enviar_resultados">Enviar Resultados</string>
     <string name="enviado">As informações foram enviadas com sucesso!</string>
+    <string name="voltar">Voltar</string>
+    <string name="voltar_description">Botão para voltar para a tela principal</string>
 
 </resources>

@@ -5,21 +5,18 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 
-import com.echo.holographlibrary.Bar;
-import com.echo.holographlibrary.BarGraph;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import br.com.silas.letusknow.R;
+import br.com.silas.letusknow.component.LetUsKnowChart;
 import br.com.silas.letusknow.exception.ServiceException;
 import br.com.silas.letusknow.model.Questao;
 import br.com.silas.letusknow.model.Resposta;
 import br.com.silas.letusknow.service.BuscarService;
-import br.com.silas.letusknow.utils.ColorUtils;
 import br.com.silas.letusknow.utils.ListUtils;
 
 public class ResultadosActivity extends BaseActivity {
@@ -33,6 +30,16 @@ public class ResultadosActivity extends BaseActivity {
             setContentView(R.layout.activity_resultados);
 
             buscarService = new BuscarService(this);
+
+            Button botaoVoltar = (Button) findViewById(R.id.botao_voltar);
+            botaoVoltar.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View view) {
+                    irParaHome();
+                }
+
+            });
         } catch (ServiceException e) {
             mostarMensagemErro(e);
         } catch (Exception e) {
@@ -55,34 +62,32 @@ public class ResultadosActivity extends BaseActivity {
 
     private void preencherTela(List<Questao> questoes) {
         if (ListUtils.isNotEmpty(questoes)) {
-            RelativeLayout graficos = (RelativeLayout) findViewById(R.id.graficos);
+            LinearLayout graficos = (LinearLayout) findViewById(R.id.graficos);
             for (Questao questao : questoes) {
-                ArrayList<Bar> bars = new ArrayList<>();
+                LetUsKnowChart grafico = new LetUsKnowChart(this);
+                grafico.setTitle(questao.getDescricao());
                 for (Resposta resposta : questao.getRespostas()) {
-                    Bar bar = new Bar();
-                    bar.setColor(ColorUtils.getRandomColor());
-                    bar.setName(resposta.getDescricao());
-                    bar.setValue(resposta.getVotos());
-                    bars.add(bar);
+                    grafico.addInformacao(resposta.getVotos(), resposta.getDescricao());
                 }
-                BarGraph graph = new BarGraph(this);
-                graph.setBars(bars);
-                graph.setUnit(" ");
-                graficos.addView(graph);
-                return;
+                grafico.concluir();
+                graficos.addView(grafico);
             }
         } else {
             mostarMensagem("Não foi possível buscar os resultados da pesquisa", new OnClose() {
 
                 @Override
                 public void onClose() {
-                    Intent intent = new Intent(ResultadosActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                    irParaHome();
                 }
 
             });
         }
+    }
+
+    private void irParaHome() {
+        Intent intent = new Intent(ResultadosActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     class ResultadoAPI extends AsyncTask<Void, Void, List<Questao>> {
