@@ -13,10 +13,12 @@ public class VotoConverter {
         Votos votos = new Votos();
         for (Questao questao : questoes) {
             for (Resposta resposta : questao.getRespostas()) {
-                Voto voto = new Voto();
-                voto.setIdQuestao(questao.getId());
-                voto.setIdResposta(resposta.getId());
-                votos.getVotos().add(voto);
+                if (resposta.isSelecionada()) {
+                    Voto voto = new Voto();
+                    voto.setIdQuestao(questao.getId());
+                    voto.setIdResposta(resposta.getId());
+                    votos.getVotos().add(voto);
+                }
             }
         }
         return votos;
