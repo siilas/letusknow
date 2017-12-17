@@ -8,6 +8,9 @@ import android.support.v7.widget.AppCompatRadioButton;
 
 public class LetUsKnowRadioButton extends AppCompatRadioButton {
 
+    private static final int TEXT_SIZE = 20;
+    private static final int COLOR = Color.rgb(48, 63, 159);
+
     @SuppressLint("RestrictedApi")
     public LetUsKnowRadioButton(Context context) {
         super(context);
@@ -18,12 +21,12 @@ public class LetUsKnowRadioButton extends AppCompatRadioButton {
                 },
                 new int[]{
                         Color.LTGRAY,
-                        Color.rgb(48, 63, 159),
+                        COLOR,
                 }
         );
         super.setSupportButtonTintList(colorStateList);
         super.setTextColor(Color.BLACK);
-        super.setTextSize(20);
+        super.setTextSize(TEXT_SIZE);
     }
 
 }

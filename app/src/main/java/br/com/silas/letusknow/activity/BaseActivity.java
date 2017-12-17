@@ -24,7 +24,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     private void mensagem(String erro, final OnClose onClose) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogTheme);
         builder.setMessage(erro);
         builder.setCancelable(false);
 

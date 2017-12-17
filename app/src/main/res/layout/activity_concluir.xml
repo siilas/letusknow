@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFF"
+    android:background="@color/colorWhite"
     android:orientation="vertical"
     tools:context="br.com.silas.letusknow.activity.ConcluirActivity">
 
@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="15dp"
+        android:layout_margin="@dimen/image_margin"
         android:src="@drawable/logo_small" />
 
     <TextView
@@ -20,11 +20,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/logo"
-        android:layout_marginBottom="25dp"
+        android:layout_marginBottom="@dimen/title_margin"
         android:gravity="center"
         android:text="@string/app_name"
-        android:textColor="#2e3899"
-        android:textSize="20dp"
+        android:textColor="@color/colorBlue"
+        android:textSize="@dimen/title_size"
         android:textStyle="bold" />
 
     <TextView
@@ -32,14 +32,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/title"
-        android:layout_margin="25dp"
+        android:layout_margin="@dimen/message_margin"
         android:accessibilityLiveRegion="polite"
         android:contentDescription="@string/conclusao"
         android:focusable="true"
         android:gravity="center"
         android:text="@string/conclusao"
-        android:textColor="#000"
-        android:textSize="25dp"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/message_size"
         android:textStyle="bold" />
 
     <Button
@@ -48,13 +48,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/message"
         android:layout_centerHorizontal="true"
-        android:layout_margin="25dp"
+        android:layout_margin="@dimen/button_margin"
         android:accessibilityLiveRegion="polite"
-        android:background="#2e3899"
+        android:background="@color/colorBlue"
         android:contentDescription="@string/enviar_resultados"
         android:focusable="true"
         android:text="@string/enviar_resultados"
-        android:textColor="#FFF" />
+        android:textColor="@color/colorWhite" />
 
     <Button
         android:id="@+id/botao_voltar"
@@ -62,12 +62,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/botao_enviar"
         android:layout_centerHorizontal="true"
-        android:layout_margin="25dp"
+        android:layout_margin="@dimen/button_margin"
         android:accessibilityLiveRegion="polite"
-        android:background="#ab041a"
+        android:background="@color/colorRed"
         android:contentDescription="@string/sair"
         android:focusable="true"
         android:text="@string/sair"
-        android:textColor="#FFF" />
+        android:textColor="@color/colorWhite" />
 
 </RelativeLayout>

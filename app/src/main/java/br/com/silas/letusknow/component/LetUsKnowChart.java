@@ -16,6 +16,8 @@ import br.com.silas.letusknow.utils.ColorUtils;
 
 public class LetUsKnowChart extends BarChart {
 
+    private static final int HEIGHT = 500;
+
     private Integer index;
     private List<IBarDataSet> valores;
 
@@ -24,7 +26,7 @@ public class LetUsKnowChart extends BarChart {
         getAxisLeft().setAxisMinimum(0);
         getAxisRight().setAxisMinimum(0);
         getXAxis().setEnabled(false);
-        LayoutParams layout = new LayoutParams(LayoutParams.MATCH_PARENT, 500);
+        LayoutParams layout = new LayoutParams(LayoutParams.MATCH_PARENT, HEIGHT);
         setLayoutParams(layout);
         startValues();
     }

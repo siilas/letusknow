@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFF"
+    android:background="@color/colorWhite"
     android:orientation="vertical"
     tools:context="br.com.silas.letusknow.activity.ResultadosActivity">
 
@@ -18,11 +18,11 @@
             android:id="@+id/result_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp"
+            android:layout_margin="@dimen/title_margin"
             android:gravity="center"
             android:text="@string/resultado_pesquisa"
-            android:textColor="#000"
-            android:textSize="20dp"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/title_size"
             android:textStyle="bold" />
 
     </RelativeLayout>
@@ -39,13 +39,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_margin="15dp"
+            android:layout_margin="@dimen/button_margin"
             android:accessibilityLiveRegion="polite"
-            android:background="#2e3899"
+            android:background="@color/colorBlue"
             android:contentDescription="@string/voltar_description"
             android:focusable="true"
             android:text="@string/voltar"
-            android:textColor="#FFF" />
+            android:textColor="@color/colorWhite" />
 
     </RelativeLayout>
 
@@ -55,7 +55,6 @@
         android:layout_height="match_parent"
         android:layout_above="@id/footer"
         android:layout_below="@id/header"
-        android:layout_marginBottom="15dp"
         android:fillViewport="true"
         android:orientation="vertical">
 

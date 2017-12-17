@@ -13,6 +13,7 @@ import java.util.List;
 
 import br.com.silas.letusknow.R;
 import br.com.silas.letusknow.component.LetUsKnowChart;
+import br.com.silas.letusknow.component.LetUsKnowProgress;
 import br.com.silas.letusknow.exception.ServiceException;
 import br.com.silas.letusknow.model.Questao;
 import br.com.silas.letusknow.model.Resposta;
@@ -92,13 +93,12 @@ public class ResultadosActivity extends BaseActivity {
 
     class ResultadoAPI extends AsyncTask<Void, Void, List<Questao>> {
 
-        private ProgressBar progress;
+        private LetUsKnowProgress progress;
 
         @Override
         protected void onPreExecute() {
-            progress = new ProgressBar(ResultadosActivity.this);
-            progress.setIndeterminate(true);
-            progress.setVisibility(View.VISIBLE);
+            progress = new LetUsKnowProgress(ResultadosActivity.this);
+            progress.show();
         }
 
         @Override
@@ -114,7 +114,7 @@ public class ResultadosActivity extends BaseActivity {
         @Override
         protected void onPostExecute(List<Questao> questoes) {
             preencherTela(questoes);
-            progress.setVisibility(View.INVISIBLE);
+            progress.hide();
         }
 
     }

@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import java.util.List;
 
 import br.com.silas.letusknow.R;
+import br.com.silas.letusknow.component.LetUsKnowProgress;
 import br.com.silas.letusknow.dao.QuestionarioDao;
 import br.com.silas.letusknow.dao.RespostaDao;
 import br.com.silas.letusknow.exception.ServiceException;
@@ -91,13 +92,12 @@ public class ConcluirActivity extends BaseActivity {
 
     class EnviarAPI extends AsyncTask<List<Questao>, Void, Enviar> {
 
-        private ProgressBar progress;
+        private LetUsKnowProgress progress;
 
         @Override
         protected void onPreExecute() {
-            progress = new ProgressBar(ConcluirActivity.this);
-            progress.setIndeterminate(true);
-            progress.setVisibility(View.VISIBLE);
+            progress = new LetUsKnowProgress(ConcluirActivity.this);
+            progress.show();
         }
 
         @Override
@@ -123,7 +123,7 @@ public class ConcluirActivity extends BaseActivity {
             } else {
                 message = enviar.getMessage();
             }
-            progress.setVisibility(View.INVISIBLE);
+            progress.hide();
 
             mostarMensagem(message, new OnClose() {
 
