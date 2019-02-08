@@ -44,7 +44,7 @@ public class BuscarService {
         String response = LetUsKnowWs.criar()
                 .rootUrl(properties.get("root.url"))
                 .autenticar(properties.get("ws.user"), properties.get("ws.pass"))
-                .get("/ws/questao/buscar");
+                .get("/ws/questoes/buscar");
 
         return QuestaoConverter.converter(response);
     }

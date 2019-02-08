@@ -26,7 +26,7 @@ public class EnvioService {
                 Integer response = LetUsKnowWs.criar()
                         .rootUrl(properties.get("root.url"))
                         .autenticar(properties.get("ws.user"), properties.get("ws.pass"))
-                        .post("/ws/questao/salvar", VotoConverter.converter(questoes));
+                        .post("/ws/questoes", VotoConverter.converter(questoes));
 
                 if (response != 200) {
                     throw new ServiceException("Não foi possível enviar as questões");
