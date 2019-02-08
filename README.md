@@ -1,5 +1,5 @@
 # LetUsKnow
 
-Projeto criado para aula de Design de Interfaces, visando a acessibilidade e assim facilitando o uso do app.
+Projeto desenvolvido para a matéria de Design de Interfaces do Programa de Mestrado em Ciência da Computação da UNESP.
 
 https://play.google.com/store/apps/details?id=br.com.silas.letusknow
